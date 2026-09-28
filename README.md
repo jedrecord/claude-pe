@@ -163,7 +163,7 @@ You can put your custom orchestrator instructions in .claude and you will need t
 add a line to the top of your CLAUDE.md pointing to that file:
 CLAUDE.md
 ```markdown
-@orchestrator-instructions.md
+@"orchestrator-instructions.md"
 ```
 
 

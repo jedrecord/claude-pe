@@ -1,1 +1,1 @@
-@team/orchestrator-instructions.md
+@"team/orchestrator-instructions.md"
