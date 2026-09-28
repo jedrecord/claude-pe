@@ -152,3 +152,19 @@ role's context from the human, has Rachel profile the relevant domain expertise,
 drafts the agent definition, writes it to `team/agents/<name>.md`, and registers
 it in `team/team_roster.md` (and `team/orchestrator-instructions.md` if it
 changes a delegation rule).
+
+## Integrating Into Your Own Workflow
+
+This project is an example meant to inspire you to try new approaches for
+smarter token use. When adapting this to your own work environment I recommend
+moving the agent files and skills into your project or home .claude/ directory
+where Claude is expecting them (eg: ~/.claude/agents/ ~/.claude/skills/).
+You can put your custom orchestrator instructions in .claude and you will need to
+add a line to the top of your CLAUDE.md pointing to that file:
+CLAUDE.md
+```markdown
+@orchestrator-instructions.md
+```
+
+
+
