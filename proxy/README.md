@@ -1,6 +1,6 @@
 # Routing model requests
 
-## 1. Set LiteLLM as your Model Proxy Router
+## 1. Set LiteLLM as your model proxy router
 
 You need a local middleware service to translate Anthropic-formatted API
 requests into OpenRouter requests, and map "valid" Anthropic model names to
@@ -62,14 +62,16 @@ need to be set in your terminal session:
 The combined launch script in step 4 sets both of these variables for you
 automatically, so a separate script isn't needed here.
 
-## 3. Update Your Agent Definitions
+## 3. Update your agent definitions
 
 Because the proxy is now active, you continue to use standard Anthropic
-model names in your agents.md frontmatter, but the proxy will silently swap
-them out during execution.
-For your Orchestrator (The Planner): Ensure the frontmatter is set to the
+model names in your agent definition files' frontmatter, but the proxy will
+silently swap them out during execution.
+
+For your orchestrator (the planner), ensure the frontmatter is set to the
 Opus model name you mapped in LiteLLM.
-orchestrator-agent.md
+
+`orchestrator-agent.md`
 ```
 ---
 name: orchestrator
@@ -77,7 +79,7 @@ model: claude-opus-5-5
 ---
 ```
 
-worker-agent.md
+`worker-agent.md`
 ```
 ---
 name: worker
@@ -90,6 +92,7 @@ payload, and executes the task using `qwen/qwen3.8-27b:free` on OpenRouter.
 Opus itself is not substituted — it continues to route directly to
 Anthropic; only the sub-agent-tier (haiku) model is routed to an
 open-weight alternative.
+
 By using this proxy architecture, Claude Code remains entirely unaware that
 it is commanding Qwen 3.8 for its sub-agents. Your existing workflow, agent
 manifests, and delegation logic require zero structural changes.
@@ -98,7 +101,8 @@ manifests, and delegation logic require zero structural changes.
 
 This section puts it all together into a single start script that shuts
 down the proxy when Claude Code exits.
-proxy-claude.sh
+
+`proxy-claude.sh`
 ```bash
 #!/bin/bash
 

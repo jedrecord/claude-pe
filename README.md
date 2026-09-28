@@ -1,36 +1,36 @@
 # claude-pe
 
-A planner-executor workflow with alternative model routing for Claude Code.
+A planner-executor workflow with model routing for Claude Code.
 
 ## The Intent
 
 The intent behind this workflow is to generate reliable code and tests by
-breaking the workflow apart into separate domains of expertice that specialized
-agents can accomplish. An added benefit of this planner=executor workflow is
+breaking the workflow apart into separate domains of expertise that specialized
+agents can accomplish. An added benefit of this planner-executor workflow is
 that each specialized agent can operate using an AI model appropriate to the
 task. The hypothesis is that this will reduce the overall expense of token use
 even if additional tokens are consumed by the extra checks built-in to the
 workflow.
 
 CAVEAT: Don't get hung up on the workflow, this is just an example that works
-for me. It could be made *much* simpler, and more complex if needed as well.
+for me. It could be made much simpler, or more complex, if needed.
 The main ideas are that you can use an advanced model to plan and delegate,
 and less expensive models to execute, reducing the premium token expense.
-The model proxy router allows you to save even more, by using openweight or 
+The model proxy router allows you to save even more, by using open-weight or
 even free models for executing agent tasks where less intelligence is needed.
 
 ## Model proxy router
 
 This project provides a startup script and configuration files to run a model
-proxy router to intercent Claude Code's model calls and substitute alternative
+proxy router to intercept Claude Code's model calls and substitute alternative
 models hosted locally or online (like openrouter.ai).
 
 Models are defined for each agent in the frontmatter and the proxy should match
 this name exactly when routing to an alternative. I've found it's best to use
-only valid Anthropic model names (eg: opus, haiku, sonnet) to avoid issues if
+only valid Anthropic model names (e.g., opus, haiku, sonnet) to avoid issues if
 you choose to switch between custom routing and default Anthropic.
 
-I recommend having a look at the included 
+I recommend having a look at the included
 [example configuration](proxy/configs/example-proxy-config.yaml) to see the
 mapping.
 
@@ -43,8 +43,8 @@ doing substantive work itself.
 ## Core Guardrail
 
 The orchestrator focuses on planning and does little substantive work directly.
-Tasks are delegated appropriate team members. If no suitable team member exists,
-the orchestrator can runs the [create-agent skill](team/skills/create-agent.md)
+Tasks are delegated to appropriate team members. If no suitable team member exists,
+the orchestrator can run the [create-agent skill](team/skills/create-agent.md)
 to define a new specialist agent.
 
 The one carve-out: routing decisions and upkeep of the team's own configuration
@@ -120,10 +120,10 @@ them.
 
 ## Repo Layout
 
-```
-CLAUDE.md                      — points Claude Code at the orchestrator instructions
+```bash
+CLAUDE.md                       — points Claude Code at the orchestrator instructions
 team/
-  orchestrator-instructions.md — Hal's full operating instructions (source of truth)
+  orchestrator-instructions.md  — Hal's full operating instructions (source of truth)
   team_roster.md                — routing table summarizing agent behavior
   agents/                       — one definition file per team member
     albert.md
@@ -136,7 +136,7 @@ team/
   skills/
     create-agent.md             — process for defining and registering a new agent
 scripts/
-  claude-proxy.sh              — starts a local LiteLLM proxy and launches `claude` against it
+  claude-proxy.sh               — starts a local LiteLLM proxy and launches `claude` against it
 proxy/configs/                  — LiteLLM routing config profiles mapping agent model names to Anthropic/OpenRouter/local backends
 ```
 
