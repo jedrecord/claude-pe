@@ -1,0 +1,62 @@
+# Forward auth headers for Anthropic model requests
+general_settings:
+  forward_llm_provider_auth_headers: true
+
+model_list:
+  # Routing opus to Anthropic directly for planning/orchestration
+  - model_name: claude-opus-5-5
+    litellm_params:
+      model: anthropic/claude-opus-5-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+      api_base: "https://api.anthropic.com"
+  # Looping fable requests back through opus
+  # In case opus decides a task is better suited for this expensive model
+  - model_name: claude-fable-5-1
+    litellm_params:
+      model: anthropic/claude-opus-5-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+      api_base: "https://api.anthropic.com"
+
+  # Route the Sub-agent models to OpenRouter
+  # These model names should match the model specified in the agents md file frontmatter
+  - model_name: claude-haiku-4-5-20251001
+    litellm_params:
+      model: openrouter/qwen/qwen3.8-27b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
+  - model_name: claude-sonnet-5
+    litellm_params:
+      model: openrouter/qwen/qwen3.8-27b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
+  - model_name: qwen-3-8-flash
+    litellm_params:
+      model: openrouter/qwen/qwen3.8-flash
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
+  - model_name: nemotron-3-ultra
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
+  - model_name: glm-5.3-flash
+    litellm_params:
+      model: openrouter/z-ai/glm-5.3-flash
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
+# Local option (make sure ollama is serving and on the port you choose below)
+# Run local only using ollama
+#  - model_name: claude-haiku-4-5-20251001
+#    litellm_params:
+#      model: ollama/qwen3:8b
+#      api_base: "http://localhost:11434"
+
+litellm_settings:
+  # Define fallback rules here
+  # Needed when free or popular openrouter models hit limits
+  falles: # (or general fallbacks structure)
+  fallbacks:
+    - {"claude-haiku-4-5-20251001": ["qwen-3-8-flash"]}
+    - {"claude-opus-5": ["qwen-3-8-flash"]}
+    - {"claude-sonnet-5": ["qwen-3-8-flash"]}
+    - {"qwen-3-8-flash": ["glm-5.3-flash"]}

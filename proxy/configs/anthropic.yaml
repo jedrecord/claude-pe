@@ -1,0 +1,29 @@
+# Forward auth headers for Anthropic model requests
+general_settings:
+  forward_llm_provider_auth_headers: true
+
+model_list:
+  # Routing opus to Anthropic directly for planning/orchestration
+  - model_name: claude-opus-5-5
+    litellm_params:
+      model: anthropic/claude-opus-5-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+      api_base: "https://api.anthropic.com"
+  - model_name: claude-fable-5-1
+    litellm_params:
+      model: anthropic/claude-fable-5-1
+      api_key: os.environ/ANTHROPIC_API_KEY
+      api_base: "https://api.anthropic.com"
+
+  # Route the Sub-agent models
+  # These model names should match the model specified in the agents md file frontmatter
+  - model_name: claude-haiku-4-5-20251001
+    litellm_params:
+      model: anthropic/claude-haiku-4-5-20251001
+      api_key: os.environ/ANTHROPIC_API_KEY
+      api_base: "https://api.anthropic.com"
+  - model_name: claude-sonnet-5
+    litellm_params:
+      model: anthropic/claude-sonnet-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+      api_base: "https://api.anthropic.com"

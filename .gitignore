@@ -1,0 +1,19 @@
+# OS cruft
+.DS_Store
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Logs (e.g. litellm.log from proxy/claude-proxy.sh runs)
+*.log
+
+# Secrets / local env (OPENROUTER_API_KEY, ANTHROPIC_API_KEY, etc.)
+.env
+.env.*
+
+# Claude Code local/session artifacts (keep team/agents, team/skills, and
+# any versioned .claude/settings.json — only ignore machine-local state)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.claude/*.lock

@@ -1,0 +1,507 @@
+<title>Cheap Agents, Expensive Judgment</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Fraunces:ital,opsz,wght@1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+
+  :root{
+    --bg:#eef1ec;
+    --paper:#ffffff;
+    --ink:#182420;
+    --ink-soft:#4d5c54;
+    --line:#d7ddd3;
+    --gold:#a6741f;
+    --gold-soft:#f3e6cd;
+    --teal:#0c645d;
+    --teal-soft:#dcece9;
+    --code-bg:#101915;
+    --code-ink:#e6efe9;
+    --code-line:#28362f;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1512;
+      --paper:#161f1a;
+      --ink:#e7ece7;
+      --ink-soft:#a3b3a9;
+      --line:#2a352e;
+      --gold:#e0ac57;
+      --gold-soft:#2c2515;
+      --teal:#5cc2b7;
+      --teal-soft:#132824;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1512;
+    --paper:#161f1a;
+    --ink:#e7ece7;
+    --ink-soft:#a3b3a9;
+    --line:#2a352e;
+    --gold:#e0ac57;
+    --gold-soft:#2c2515;
+    --teal:#5cc2b7;
+    --teal-soft:#132824;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--gold-soft); color:var(--ink); }
+
+  a{ color:var(--teal); text-decoration-thickness:1.5px; text-underline-offset:2px; }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--teal); outline-offset:2px; }
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding-inline:20px;
+    padding-block: 56px 80px;
+  }
+
+  header.masthead{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    padding-bottom:32px;
+    margin-bottom:36px;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+  }
+  h1{
+    font-family:"Fraunces", Georgia, serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(2.1rem, 5vw, 3.1rem);
+    line-height:1.06;
+    letter-spacing:-0.01em;
+    margin:0;
+    text-wrap:balance;
+  }
+  .dek{
+    font-family:"Fraunces", Georgia, serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.28rem;
+    color:var(--ink-soft);
+    margin:0;
+    max-width:60ch;
+    text-wrap:balance;
+  }
+  .byline{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:baseline;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .byline b{ color:var(--ink); font-weight:600; }
+
+  /* Pricing strip — the hook, as data */
+  .pricing{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:3px;
+    overflow:hidden;
+    margin-bottom:10px;
+  }
+  .price-cell{
+    background:var(--paper);
+    padding:16px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .price-cell .model{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .price-cell .rate{
+    font-family:"IBM Plex Mono", monospace;
+    font-variant-numeric:tabular-nums;
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--gold);
+    line-height:1.1;
+  }
+  .price-cell .rate small{
+    font-size:0.55em;
+    font-weight:500;
+    color:var(--ink-soft);
+  }
+  .price-cell.opus{ background:var(--gold-soft); }
+  .price-note{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:0 0 44px;
+  }
+
+  article h2{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:600;
+    font-size:1.6rem;
+    letter-spacing:-0.005em;
+    margin:2.4em 0 0.6em;
+    text-wrap:balance;
+  }
+  article h2:first-of-type{ margin-top:0.4em; }
+  article p{ margin:1.1em 0; max-width:66ch; }
+  article ul, article ol{ max-width:64ch; padding-left:1.3em; }
+  article li{ margin:0.5em 0; }
+  strong{ font-weight:600; }
+
+  .stat{
+    font-family:"IBM Plex Mono", monospace;
+    font-weight:600;
+    color:var(--teal);
+  }
+
+  blockquote{
+    margin:1.8em 0;
+    padding:2px 0 2px 22px;
+    border-left:3px solid var(--gold);
+    font-family:"Fraunces", Georgia, serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.22rem;
+    line-height:1.45;
+    color:var(--ink);
+    max-width:58ch;
+  }
+  blockquote cite{
+    display:block;
+    margin-top:0.5em;
+    font-family:"IBM Plex Mono", monospace;
+    font-style:normal;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+
+  .callout{
+    background:var(--teal-soft);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:18px 20px;
+    margin:1.8em 0;
+    max-width:66ch;
+  }
+  .callout p{ margin:0.5em 0; max-width:none; }
+  .callout .label{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--teal);
+  }
+
+  /* Routing diagram */
+  .diagram{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin:1.6em 0 2em;
+  }
+  @media (max-width:560px){ .diagram{ grid-template-columns:1fr; } }
+  .diagram figure{ margin:0; display:flex; flex-direction:column; gap:10px; }
+  .diagram figcaption{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .flow{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:6px;
+    min-height:230px;
+    justify-content:center;
+  }
+  .node{
+    border-radius:3px;
+    padding:8px 10px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+    text-align:center;
+    border:1px solid var(--line);
+  }
+  .node.hot{ background:var(--gold-soft); border-color:var(--gold); color:var(--ink); font-weight:600; }
+  .node.cool{ background:var(--teal-soft); border-color:var(--teal); color:var(--ink); }
+  .arrow{ text-align:center; color:var(--ink-soft); font-size:13px; line-height:1; }
+  .fanout{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+
+  pre{
+    background:var(--code-bg);
+    color:var(--code-ink);
+    border-radius:5px;
+    padding:16px 18px;
+    overflow-x:auto;
+    margin:1.4em 0;
+    border:1px solid var(--code-line);
+  }
+  code{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:13.5px;
+    line-height:1.6;
+  }
+  p code, li code{
+    background:var(--gold-soft);
+    color:var(--ink);
+    padding:0.1em 0.35em;
+    border-radius:3px;
+    font-size:0.88em;
+  }
+  .code-label{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin:1.6em 0 -0.8em;
+    letter-spacing:0.02em;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:1.4em 0;
+    font-size:15px;
+  }
+  th, td{
+    text-align:left;
+    padding:9px 12px;
+    border-bottom:1px solid var(--line);
+    font-variant-numeric:tabular-nums;
+  }
+  th{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .tbl-wrap{ overflow-x:auto; }
+
+  footer{
+    margin-top:56px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  @media print{
+    body{ background:#fff; color:#000; font-size:12pt; }
+    .no-print{ display:none !important; }
+    .wrap{ max-width:100%; padding:0; }
+    a{ color:#000; text-decoration:underline; }
+    .eyebrow, .stat{ color:#000; }
+    .price-cell.opus, .callout, .diagram .flow, .node.hot, .node.cool{
+      background:#fff !important;
+      border-color:#000 !important;
+    }
+    blockquote{ border-left-color:#000; }
+    pre{
+      background:#fff;
+      color:#000;
+      border:1px solid #000;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    code{ color:#000; }
+    p code, li code{ background:#fff; border:1px solid #000; }
+    table{ font-size:10.5pt; }
+    th{ color:#000; }
+    a[href^="http"]::after{ content:" (" attr(href) ")"; font-size:9pt; color:#333; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="eyebrow">Engineering Economics</span>
+    <h1>Cheap Agents, Expensive Judgment</h1>
+    <p class="dek">Frontier model prices keep climbing, and inference has become the dominant recurring cost in the AI budget &mdash; one teams routinely under-forecast. A small orchestrator pattern called claude&#8209;pe offers one way to keep paying for judgment without paying for it on every task.</p>
+    <div class="byline">
+      <span><b>Jed Record</b></span>
+      <span>&middot;</span>
+      <span>September 28, 2026</span>
+      <span>&middot;</span>
+      <span>7 min read</span>
+    </div>
+  </header>
+
+  <div class="pricing" role="table" aria-label="Claude model pricing per million tokens">
+    <div class="price-cell">
+      <span class="model">Haiku 4.5</span>
+      <span class="rate">$1 <small>in</small></span>
+      <span class="rate">$5 <small>out</small></span>
+    </div>
+    <div class="price-cell">
+      <span class="model">Sonnet 5</span>
+      <span class="rate">$2 <small>in</small></span>
+      <span class="rate">$10 <small>out</small></span>
+    </div>
+    <div class="price-cell opus">
+      <span class="model">Opus 5.5</span>
+      <span class="rate">$4 <small>in</small></span>
+      <span class="rate">$20 <small>out</small></span>
+    </div>
+    <div class="price-cell">
+      <span class="model">Fable 5.1</span>
+      <span class="rate">$10 <small>in</small></span>
+      <span class="rate">$50 <small>out</small></span>
+    </div>
+  </div>
+  <p class="price-note">Anthropic API list pricing per million tokens, September 2026 (claude.com/pricing). Opus 5.5 runs 4&times; Haiku's rate on both sides of the ledger &mdash; and it's already 20% cheaper than Opus 5's $5 / $25.</p>
+
+  <article>
+
+    <h2>The line item nobody budgeted for</h2>
+    <p>Two years ago, "AI spend" on an engineering budget meant seats and API credits, rounding error next to payroll. That's no longer true. RapidData's <em>State of Enterprise AI 2026</em> calls inference the dominant recurring cost in enterprise AI budgets &mdash; one that organizations routinely under-forecast by 3&ndash;5x. ISG's 2025 IT budget study, published back in December 2024, tells a similar story from a different angle: overall IT budgets were projected to rise a modest 1.8%, but AI spending inside those budgets was projected to rise 5.7%, soaking up nearly a third of the total IT budget increase by itself.</p>
+    <p>None of this is because engineers got careless. It's because the work got better, and better work asks harder questions of bigger models, more often, in longer agentic loops that weren't part of anyone's cost model eighteen months ago. A model that plans, delegates, checks its own output, and retries is doing four or five times the token work of one that just answers a prompt. Multiply that by a team running agents all day, and the invoice stops looking like rounding error.</p>
+    <p>The obvious fix &mdash; use the frontier model for everything, it's the best one &mdash; is also the expensive one. The less obvious fix is to ask a sharper question: which parts of this workflow actually need frontier judgment, and which parts just need a competent model that follows instructions?</p>
+
+    <h2>One idea, doing most of the work</h2>
+    <p>That question has an answer that shows up across every serious cost-reduction result in this space: <strong>separate planning from execution, and spend your expensive tokens only on the planning.</strong> A frontier model is genuinely worth its price when it's deciding what to do, breaking down ambiguous work, or judging whether a result is actually correct. It's usually wasted when it's writing boilerplate, running a test suite, or formatting a research summary &mdash; tasks a much cheaper model handles at a similar quality bar.</p>
+    <p>This isn't a hunch. UC Berkeley's peer-reviewed RouteLLM showed that routing between model tiers by query difficulty cut costs by roughly 85% while holding onto 95% of GPT-4-level quality. AWS reports similar results in production with Bedrock's Intelligent Prompt Routing, around 60% savings. Independent surveys of commercial routing platforms report a wide band, roughly 40&ndash;85% cost reduction, depending on workload and how aggressively the router shifts work downward.</p>
+    <div class="callout">
+      <p class="label">A caveat worth sitting with</p>
+      <p>That band is real, but it isn't automatic. LLMRouterBench (ACL 2026) put a wide set of routing methods &mdash; commercial products included &mdash; through a unified evaluation and found many of them don't reliably beat a simple baseline like "always use the mid-tier model." Routing helps when the split between easy and hard work is real and the router can tell the difference. It doesn't help by existing. Measure your own workload before you bank the savings.</p>
+    </div>
+
+    <h2>Hal: an orchestrator that refuses to do the work</h2>
+    <p>claude&#8209;pe is a small, working implementation of that idea, built around a single rule: the orchestrator &mdash; nicknamed Hal &mdash; never does substantive work itself. It only receives a request, decides which specialist should handle it, dispatches the task, and reports back. Every actual line of code, every test run, every piece of research is done by one of seven named sub-agents, each with a narrow job description.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Agent</th><th>Role</th><th>Model tier</th></tr></thead>
+        <tbody>
+          <tr><td>Rachel</td><td>Senior Researcher</td><td>Haiku 4.5</td></tr>
+          <tr><td>Devon</td><td>Developer</td><td>Haiku 4.5</td></tr>
+          <tr><td>Quinn</td><td>QA Engineer</td><td>Haiku 4.5</td></tr>
+          <tr><td>Revan</td><td>Code Reviewer</td><td>Haiku 4.5</td></tr>
+          <tr><td>Judy</td><td>Completeness Verifier</td><td>Opus 5.5</td></tr>
+          <tr><td>Karen</td><td>Critic / Red Team</td><td>Opus 5.5</td></tr>
+          <tr><td>Albert</td><td>Senior Advisor</td><td>Opus 5.5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Notice the split. The agents doing routine execution &mdash; writing code, running research, filing test results &mdash; sit on Haiku. The agents doing judgment &mdash; deciding whether a task is <em>actually</em> complete, red-teaming a plan before it ships, unsticking a confused peer &mdash; sit on Opus, alongside Hal itself. The pattern isn't "cheap model bad, expensive model good." It's routing each kind of thinking to the tier that can actually do it well, and refusing to pay Opus rates for Haiku-shaped work.</p>
+    <div class="diagram">
+      <figure>
+        <figcaption>Without a planner / executor split</figcaption>
+        <div class="flow">
+          <div class="node hot">Every request</div>
+          <div class="arrow">&darr;</div>
+          <div class="node hot">Frontier model</div>
+          <div class="arrow">&darr;</div>
+          <div class="node hot">Plans it, writes it, checks it &mdash; all at Opus rates</div>
+        </div>
+      </figure>
+      <figure>
+        <figcaption>claude&#8209;pe's split</figcaption>
+        <div class="flow">
+          <div class="node hot">Request &rarr; Hal (Opus)</div>
+          <div class="arrow">&darr; delegates</div>
+          <div class="fanout">
+            <div class="node cool">Rachel</div>
+            <div class="node cool">Devon</div>
+            <div class="node cool">Quinn</div>
+            <div class="node cool">Revan</div>
+          </div>
+          <div class="arrow">judgment calls only &uarr;</div>
+          <div class="node hot">Judy &middot; Karen &middot; Albert</div>
+        </div>
+      </figure>
+    </div>
+
+    <h2>Setting it up</h2>
+    <p>The orchestrator pattern alone helps, because it stops one expensive context from doing everyone's job. claude&#8209;pe adds a second lever on top: a local model proxy that can reroute the "cheap" tier away from Anthropic's API entirely, onto open-weight models, without touching a single agent definition.</p>
+    <p>Clone the repository and install <a href="https://github.com/BerriAI/litellm">LiteLLM</a>, which acts as the translation layer between Claude Code's Anthropic-formatted requests and whatever backend you actually want serving them:</p>
+    <p class="code-label">Terminal</p>
+    <pre><code>git clone https://github.com/jedrecord/claude-pe.git
+cd claude-pe
+uv tool install litellm</code></pre>
+    <p>The fastest way to get running is with an OpenRouter API key and one of the bundled config profiles &mdash; no YAML to write by hand:</p>
+    <p class="code-label">Terminal (continued)</p>
+    <pre><code>export OPENROUTER_API_KEY="sk-or-xxxxxxx"
+mkdir -p ~/.config/litellm
+cp proxy/configs/split-nemo.yaml ~/.config/litellm/config.yaml</code></pre>
+    <p>If you'd rather see how that mapping works, or write your own, a LiteLLM config just maps each model name in your agents' frontmatter to a real backend. Opus stays pointed at Anthropic directly &mdash; it's the planning tier, and there's no reason to substitute it. The Haiku and Sonnet execution-tier slots, used by the sub-agents, get routed to the same open-weight model on OpenRouter instead:</p>
+    <p class="code-label">~/.config/litellm/config.yaml</p>
+    <pre><code>general_settings:
+  forward_llm_provider_auth_headers: true
+
+model_list:
+  - model_name: claude-opus-5-5
+    litellm_params:
+      model: anthropic/claude-opus-5-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+      api_base: "https://api.anthropic.com"
+  - model_name: claude-haiku-4-5-20251001
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
+  - model_name: claude-sonnet-5
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"</code></pre>
+    <p>Beyond <code>split-nemo.yaml</code>, the repo's <code>proxy/configs/</code> directory has more profiles ready to go &mdash; all-local Ollama profiles, split configs across DeepSeek, GLM, Kimi, and Qwen, plus a fallback chain for when a free-tier OpenRouter model gets rate-limited mid-task. Point <code>litellm_params.model</code> at whichever backend fits your risk tolerance; the agent definitions never need to know.</p>
+    <p>Then start the proxy and launch Claude Code against it. The bundled script handles both in one command:</p>
+    <p class="code-label">scripts/claude-proxy.sh (excerpt)</p>
+    <pre><code>litellm --config ~/.config/litellm/config.yaml --port 4000 &amp;
+export ANTHROPIC_BASE_URL="http://localhost:4000"
+export ANTHROPIC_API_KEY="sk-dummy"
+claude "$@"</code></pre>
+    <p>Claude Code still addresses its agents by ordinary Anthropic model names &mdash; <code>claude-haiku-4-5-20251001</code>, <code>claude-opus-5-5</code> &mdash; because that's what's declared in each agent's frontmatter. LiteLLM intercepts the request and silently swaps in whatever the config maps it to. Hal keeps orchestrating exactly as before; it has no idea Devon is now running on an open-weight model on the other side of a proxy.</p>
+
+    <h2>What this is, and isn't, proven to do</h2>
+    <p>claude&#8209;pe's own README is careful about this, and it's worth being just as careful here: the cost benefit is stated as a <strong>hypothesis</strong>, not a measured result. Splitting work across model tiers adds its own overhead &mdash; review passes, completeness checks, an extra round-trip through a proxy &mdash; and that overhead consumes tokens too. The architecture is a reasonable bet, well aligned with what published routing research shows works in other systems, but nobody has benchmarked <em>this specific team of seven agents</em> against a single-model baseline and published the delta.</p>
+    <p>So treat this as an architecture worth trying against your own workload, the same way you'd pilot any cost lever before committing budget to it: instrument it, compare it to your current single-model setup, and let your own numbers make the case Anthropic's or Berkeley's numbers can't make for you.</p>
+
+    <h2>The real point</h2>
+    <p>Model prices are not going to stop climbing, and neither is the amount of agentic work engineering teams ask models to do. Inference is well on its way to sitting next to compensation as a line item that finance actually watches, not a rounding error folded into "cloud." The teams that manage that line well won't be the ones who found the single cheapest model and used it everywhere &mdash; quality suffers exactly where it can't afford to. They'll be the ones who figured out, task by task, which decisions genuinely need frontier judgment and which just need a model that can follow instructions. Everything else is implementation detail. claude&#8209;pe is one implementation, offered as a starting point, not a prescription.</p>
+
+  </article>
+
+  <footer>
+    <span>claude-pe &middot; github.com/jedrecord/claude-pe</span>
+    <span>Pricing sourced from claude.com/pricing, Sept 2026</span>
+  </footer>
+
+</div>

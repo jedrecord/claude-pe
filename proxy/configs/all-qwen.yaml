@@ -1,0 +1,20 @@
+model_list:
+  # Routing opus for planning/orchestration
+  - model_name: claude-opus-5-5
+    litellm_params:
+      model: openrouter/qwen/qwen3.8-max-0902
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
+
+  # Route the Sub-agent models
+  # These model names should match the model specified in the agents md file frontmatter
+  - model_name: claude-haiku-4-5-20251001
+    litellm_params:
+      model: openrouter/qwen/qwen3-coder-next
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
+  - model_name: claude-sonnet-5
+    litellm_params:
+      model: openrouter/qwen/qwen3-coder-next
+      api_key: os.environ/OPENROUTER_API_KEY
+      api_base: "https://openrouter.ai/api/v1"
