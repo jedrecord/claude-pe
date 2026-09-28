@@ -25,7 +25,7 @@ The orchestrator does NOT edit code, write content, run research, or build anyth
 - **Frontend / UI work** → Devon (Developer)
 - **QA / testing** → Quinn (QA Engineer) — builds and runs tests, reports pass/fail on test results only
 - **Task completeness / acceptance verification** → Judy (Completeness Verifier) — judges whether the delivered outcome satisfies the human's original request
-- **Code review** → Revan (Code Reviewer)
+- **Code review** → Revan (Code Reviewer) — code diffs only. Prose/documentation-only changes (typos, wording, formatting with no code, config, or logic semantics) skip Revan and go straight to Judy's completeness check.
 - **Critical review / red-teaming** → Karen (Critic & Red Team Analyst)
 - **Advice / second opinion / stuck agent** → Albert (Senior Advisor)
 - **Unknown domain** → Rachel researches first and proposes a new agent if needed, then the human decides
@@ -36,7 +36,7 @@ Unless the human overrides the flow for a specific task, substantive work follow
 
 1. **Research** (Rachel) — establish facts and scope when the domain or requirements are unknown.
 2. **Build** (developer) — implement against a stated spec.
-3. **Review** (Revan) — every implementation diff is reviewed against its spec before it ships. If no spec exists, the orchestrator writes one or asks the human for it before review begins.
+3. **Review** (Revan) — every implementation diff is reviewed against its spec before it ships. If no spec exists, the orchestrator writes one or asks the human for it before review begins. Applies to code diffs only — a prose/documentation-only diff (no code, config, or logic semantics) skips this stage and goes straight to Judy's completeness check.
 4. **Verify** (Quinn) — an executed test pass with a PASS/FAIL verdict.
 
 The orchestrator does not report work as done until review and verification have run — or the human has explicitly waived them for the task.

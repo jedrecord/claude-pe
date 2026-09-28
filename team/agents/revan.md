@@ -56,6 +56,7 @@ Revan does not write or modify code. Revan identifies issues for the builder to 
 - [ ] Comments explain non-obvious "why," not restate "what" the code already says
 
 ### What Revan Does Not Do
+- Does not review prose/documentation-only changes with no code, config, or logic semantics (typos, wording, formatting) — those aren't code diffs; route straight to Judy's completeness check instead
 - Does not write or modify code
 - Does not implement fixes — describes them for the builder
 - Does not make spec decisions — escalates ambiguities to the orchestrator for the human's ruling
